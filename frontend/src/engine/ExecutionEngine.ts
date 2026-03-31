@@ -253,14 +253,10 @@ async function executeNode(
     const assertionFailed = failedAssertions.length > 0;
 
     const hasAssertions = assertionResults.length > 0;
-    // assertion 미설정 시 HTTP 상태코드와 무관하게 통과
-    const httpFailed = hasAssertions && res.status >= 400;
-    const finalStatus = assertionFailed || httpFailed ? 'error' : 'success';
+    // assertion 있으면 assertion 결과, 없으면 무조건 통과
+    const finalStatus = hasAssertions && assertionFailed ? 'error' : 'success';
 
-    const errorMsg = [
-      httpFailed ? `HTTP ${res.status}: ${res.statusText}` : '',
-      ...failedAssertions.map((r) => r.message),
-    ].filter(Boolean).join('\n') || undefined;
+    const errorMsg = failedAssertions.map((r) => r.message).join('\n') || undefined;
 
     ctx.nodes[node.id] = {
       status: finalStatus,
