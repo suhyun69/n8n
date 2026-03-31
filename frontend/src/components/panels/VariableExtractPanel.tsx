@@ -63,7 +63,7 @@ export default function VariableExtractPanel({ nodeId, data }: Props) {
                   onChange={(e) => updateRow(i, 'variableName', e.target.value)}
                 />
                 <p className="text-xs text-gray-600 mt-1">
-                  이후 <code className="text-violet-400">{'{{vars.accessToken}}'}</code> 로 사용
+                  이후 <code className="text-violet-400">{`{{vars.${ex.variableName || '변수명'}}}`}</code> 로 사용
                 </p>
               </div>
 
